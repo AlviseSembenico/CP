@@ -7,6 +7,8 @@ This repository contains solutions and code for various competitive programming 
 - **.vscode/**: Contains workspace settings and configurations for Visual Studio Code.
 - **csei/**: Likely related to specific problem sets or algorithms.
 - **janestreet/**: Contains solutions or challenges related to Jane Street's monthly problems.
+- **codeforces/**: Contains the solutions of the problem of codeforces website
+- **lib/**: Collections of different types of algorithm.
 
 ## How to Use
 
