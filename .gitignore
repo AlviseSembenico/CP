@@ -1,2 +1,52 @@
 **/.history/
 **/*.exe
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.dll
+*.dylib
+*.pyd
+
+# Virtual environment
+venv/
+.env/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# C++ build files
+*.o
+*.obj
+*.exe
+*.out
+*.app
+*.dSYM/
+*.a
+*.lib
+*.so
+*.la
+*.lo
+CMakeCache.txt
+CMakeFiles/
+
+# Logs and databases
+*.log
+*.sqlite
+
+# VSCode and JetBrains IDE files
+.vscode/
+.idea/
+*.iml
+
+# macOS files
+.DS_Store
+
+# Windows files
+Thumbs.db
+Desktop.ini
+
+*.exe
+.history
+.cph
