@@ -4,21 +4,16 @@
 #include <unordered_set>
 #include <algorithm>
 #include <sstream>
+#include <cmath>
+#include <numeric>
 using namespace std;
 
-void printVector(const vector<int> &vec, const string &separator = ", ", const string &prefix = "[", const string &suffix = "]")
-{
-    cout << prefix;
-    for (size_t i = 0; i < vec.size(); ++i)
-    {
-        cout << vec[i];
-        if (i < vec.size() - 1)
-        {
-            cout << separator;
-        }
-    }
-    cout << suffix << endl;
-}
+#define DEBUG 1
+
+#if DEBUG
+#define HAS_EXTRA 1
+#include "debug.hpp"
+#endif
 
 int main()
 {
@@ -32,14 +27,8 @@ int main()
         int size;
         cin >> size;
         cin.ignore();
-        string line;
-        getline(cin, line);
-        istringstream iss(line);
-        int num;
-        vector<int> arr;
-        while (iss >> num)
-        {
-            arr.push_back(num);
-        }
+        vector<int> arr(size);
+        for (int i = 0; i < size; i++)
+            cin >> arr[i];
     }
 }
