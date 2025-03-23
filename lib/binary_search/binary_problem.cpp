@@ -24,7 +24,7 @@ int binary_search(vector<int> &nums, int k)
         else
             i = mid;
     }
-    if (check(mid))
+    if (check(i))
         return i;
     return j;
 }
