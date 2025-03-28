@@ -6,6 +6,7 @@
 #include <sstream>
 #include <cmath>
 #include <numeric>
+#include <climits>
 using namespace std;
 
 #define DEBUG 1

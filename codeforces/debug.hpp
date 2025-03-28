@@ -4,7 +4,12 @@
 #include <iostream>
 using namespace std;
 
-void printVector(const vector<long long int> &vec, const string &separator = ", ", const string &prefix = "[", const string &suffix = "]")
+// Define a concept for allowed types
+template <typename T>
+concept AllowedType = std::same_as<T, int> || std::same_as<T, long long>;
+
+template <AllowedType T>
+void printVector(const vector<T> &vec, const string &separator = ", ", const string &prefix = "[", const string &suffix = "]")
 {
     cout << prefix;
     for (size_t i = 0; i < vec.size(); ++i)

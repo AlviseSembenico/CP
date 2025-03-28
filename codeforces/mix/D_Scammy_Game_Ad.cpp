@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <vector>
 #include <unordered_map>
@@ -7,9 +6,11 @@
 #include <sstream>
 #include <cmath>
 #include <numeric>
+#include <climits>
+
 using namespace std;
 
-#define DEBUG 1
+#define DEBUG 0
 
 #if DEBUG
 #define HAS_EXTRA 1
@@ -29,16 +30,17 @@ ll comp(vector<vector<int>> &m)
         if (m[i][2] == 0)
             nr.push_back(i);
     }
-    nr.push_back(1e10);
+    nr.push_back(INT_MAX);
     nl.push_back(nr.back() - 1);
-    int l = 1;
-    int r = 1;
+    // printVector(nl);
+    // printVector(nr);
+    ll l = 1;
+    ll r = 1;
     int lp = 0;
     int rp = 0;
     for (int i = 0; i < m.size(); i++)
     {
-        // cout << l << "  " << r << endl;
-        int add = 0;
+        ll add = 0;
         if (m[i][0] == 1)
             add += m[i][1];
         else
@@ -47,19 +49,20 @@ ll comp(vector<vector<int>> &m)
             add += m[i][3];
         else
             add += r * (m[i][3] - 1);
-        while (nr[rp] == nl[lp])
+
+        while (nr[rp] <= i)
+            rp++;
+        while (nl[lp] <= i)
+            lp++;
+        while (nr[rp] == nl[lp] && (rp != nr.size() - 1) && (lp != nl.size() - 1) && m[nr[rp]][1] == m[nr[rp]][3])
         {
             rp++;
             lp++;
         }
-        if (nr[rp] > nl[lp])
+        if (nr[rp] > nl[lp] || (nr[rp] == nl[lp] && m[nr[rp]][1] > m[nr[rp]][3]))
             l += add;
         else
             r += add;
-        if (nr[rp] <= i)
-            rp++;
-        if (nl[lp] <= i)
-            lp++;
     }
 
     return l + r;
