@@ -6,6 +6,7 @@
 #include <sstream>
 #include <cmath>
 #include <map>
+#include <set>
 #include <numeric>
 #include <climits>
 using namespace std;
@@ -14,7 +15,7 @@ using namespace std;
 
 #if DEBUG
 #define HAS_EXTRA 1
-#include "debug.hpp"
+#include "./codeforces/debug.hpp"
 #endif
 
 typedef long long int ll;
