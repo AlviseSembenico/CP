@@ -23,6 +23,21 @@ void printVector(const vector<T> &vec, const string &separator = ", ", const str
     cout << suffix << endl;
 }
 
+template <AllowedType T>
+void printVector(T vec[], int size, const string &separator = ", ", const string &prefix = "[", const string &suffix = "]")
+{
+    cout << prefix;
+    for (size_t i = 0; i < size; ++i)
+    {
+        cout << vec[i];
+        if (i < size - 1)
+        {
+            cout << separator;
+        }
+    }
+    cout << suffix << endl;
+}
+
 inline void printMap(const map<int, int> &m)
 {
     cout << "{ ";
