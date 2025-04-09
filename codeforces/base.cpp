@@ -9,6 +9,8 @@
 #include <set>
 #include <numeric>
 #include <climits>
+#include <algorithm>
+
 using namespace std;
 
 #define DEBUG 1
