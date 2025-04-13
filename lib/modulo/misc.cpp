@@ -1,9 +1,9 @@
-
+typedef long long ll;
 
 // Modular exponentiation
-inline long long modPow(long long x, int exp, long long mod)
+inline ll modPow(ll x, ll exp, ll mod)
 {
-    long long ans = 1;
+    ll ans = 1;
     while (exp > 0)
     {
         if (exp & 1)
@@ -12,4 +12,18 @@ inline long long modPow(long long x, int exp, long long mod)
         exp /= 2;
     }
     return ans;
+}
+
+inline ll mod_mul(ll a, ll b, ll mod)
+{
+    ll result = 0;
+    a %= mod;
+    while (b > 0)
+    {
+        if (b & 1)
+            result = (result + a) % mod;
+        a = (a * 2) % mod;
+        b >>= 1;
+    }
+    return result;
 }
