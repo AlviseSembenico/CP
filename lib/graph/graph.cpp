@@ -1,6 +1,8 @@
 #include <vector>
 #include <unordered_map>
 
+typedef long long int ll;
+
 using namespace std;
 
 void connected_component(vector<vector<vector<int>>> &graph, int node,
@@ -24,4 +26,14 @@ void UndirectedGraphWeightsInitializer(int n, vector<vector<int>> &edges,
     }
 }
 
-int main() { return 1; }
+void eulerPath(ll node, vector<vector<ll>> &graph, vector<ll> &res, vector<ll> &vals, vector<ll> &start, vector<ll> &end, bool seen[])
+{
+    if (seen[node])
+        return;
+    seen[node] = true;
+    res.push_back(vals[node]);
+    start[node] = res.size() - 1;
+    for (ll child : graph[node])
+        eulerPath(child, graph, res, vals, start, end, seen);
+    end[node] = res.size() - 1;
+}
