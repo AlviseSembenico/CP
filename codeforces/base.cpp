@@ -13,12 +13,24 @@
 
 using namespace std;
 
-#define DEBUG 1
+#define DEBUG 0
 
 #if DEBUG
 #define HAS_EXTRA 1
 #include "./codeforces/debug.hpp"
 #endif
+
+template <typename T>
+ostream &operator<<(ostream &os, const vector<T> &v)
+{
+    for (int i = 0; i < v.size(); ++i)
+    {
+        os << v[i];
+        if (i != v.size() - 1)
+            os << " ";
+    }
+    return os;
+}
 
 typedef long long int ll;
 
