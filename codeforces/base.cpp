@@ -1,15 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-#include <algorithm>
-#include <sstream>
-#include <cmath>
-#include <map>
-#include <set>
-#include <numeric>
-#include <climits>
-#include <algorithm>
+#include <bits/stdc++.h>
 
 using namespace std;
 
