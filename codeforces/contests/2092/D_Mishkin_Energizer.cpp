@@ -62,7 +62,9 @@ void comp(string &s)
         cb = 'I';
         most = 'L';
     }
-
+    vector<int> tt = {ta, tb};
+    sort(tt.begin(), tt.end());
+    int current = 1;
     vector<int> ops;
     // cout << nops << endl;
     // return;
@@ -71,17 +73,34 @@ void comp(string &s)
         if ((s[i] != most && s[i + 1] == most))
         {
             int counter = 1;
-            while (nops--)
-                cout << i + counter++ << endl;
-            return;
+            while (tt[current] > 0)
+            {
+                ops.push_back(i + counter);
+                tt[current]--;
+                current = 1 - current;
+                counter++;
+            }
         }
         if ((s[i] == most && s[i + 1] != most))
         {
-            while (nops--)
-                cout << i + 1 << endl;
-            return;
+            while (tt[current] > 0)
+            {
+                ops.push_back(i + 1);
+                tt[current]--;
+                current = 1 - current;
+            }
         }
+        current = 1;
+        sort(tt.begin(), tt.end());
     }
+    if (tt[0] > 0 || tt[1] > 0)
+    {
+        cout << -1 << endl;
+        return;
+    }
+    cout << ops.size() << endl;
+    for (int i : ops)
+        cout << i << endl;
 }
 
 int main()
