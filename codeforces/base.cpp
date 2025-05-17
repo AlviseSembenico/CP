@@ -9,6 +9,7 @@ using namespace std;
 #include "./codeforces/debug.hpp"
 #endif
 
+typedef long long int ll;
 template <typename T>
 ostream &operator<<(ostream &os, const vector<T> &v)
 {
@@ -20,8 +21,6 @@ ostream &operator<<(ostream &os, const vector<T> &v)
     }
     return os;
 }
-
-typedef long long int ll;
 
 int main()
 {
