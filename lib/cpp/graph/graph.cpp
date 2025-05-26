@@ -39,23 +39,39 @@ void eulerPath(ll node, vector<vector<ll>> &graph, vector<ll> &res, vector<ll> &
 }
 
 bool visited[(int)1e5 + 5];
+bool checked[(int)1e5 + 5];
 // fill_n(visited, colors.size() + 5, false);
 bool check(vector<vector<int>> &g, int node)
 {
     if (visited[node])
         return true;
+    if (checked[node])
+        return false;
+
+    checked[node] = true;
     visited[node] = true;
     for (auto t : g[node])
         if (check(g, t))
             return true;
+    visited[node] = false;
     return false;
 }
 
 bool contains_cycle(vector<vector<int>> &g)
 {
+    vector<int> inc(g.size() + 5, 0);
+    for (auto e : g)
+    {
+        for (int to : e)
+            inc[to]++;
+    }
+    int c = 0;
     for (int i = 0; i < g.size(); i++)
-        if (!visited[i])
+        if (inc[i] == 0)
+        {
+            c++;
             if (check(g, i))
                 return true;
-    return false;
+        }
+    return c == 0;
 }
