@@ -1,5 +1,4 @@
-#include <vector>
-#include <unordered_map>
+#include <bits/stdc++.h>
 
 typedef long long int ll;
 
@@ -65,13 +64,11 @@ bool contains_cycle(vector<vector<int>> &g)
         for (int to : e)
             inc[to]++;
     }
-    int c = 0;
     for (int i = 0; i < g.size(); i++)
         if (inc[i] == 0)
         {
-            c++;
             if (check(g, i))
                 return true;
         }
-    return c == 0;
+    return accumulate(checked, checked + g.size(), 0) != g.size();
 }
