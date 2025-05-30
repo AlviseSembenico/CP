@@ -72,3 +72,13 @@ bool contains_cycle(vector<vector<int>> &g)
         }
     return accumulate(checked, checked + g.size(), 0) != g.size();
 }
+
+vector<vector<int>> graph(N);
+void make_graph(vector<vector<int>> &edges, vector<vector<int>> &g)
+{
+    for (auto e : edges)
+    {
+        g[e[0]].push_back(e[1]);
+        g[e[1]].push_back(e[2]);
+    }
+}
