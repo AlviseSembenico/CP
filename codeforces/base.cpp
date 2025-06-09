@@ -10,6 +10,11 @@ using namespace std;
 #endif
 
 typedef long long int ll;
+typedef vector<int> vint;
+typedef vector<ll> vlong;
+
+#define all(x) x.begin(), x.end()
+
 template <typename T>
 ostream &operator<<(ostream &os, const vector<T> &v)
 {
