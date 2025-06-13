@@ -14,8 +14,6 @@ typedef long long int ll;
 typedef vector<int> vint;
 typedef vector<ll> vlong;
 
-#define loop(a, b) for (int i = a; i < b; i++)
-#define loop0(a) for (int i = 0; i < a; i++)
 #define all(x) x.begin(), x.end()
 
 template <typename T>
@@ -48,7 +46,40 @@ struct custom_hash
     }
 };
 // we can now use it with unordered_map, unordered_set, etc.
-unordered_map<int, int, custom_hash> m;
+// unordered_map<int, int, custom_hash> m;
+
+vlong dp1;
+vlong dp2;
+vlong dp3;
+
+ll comp(vlong &l)
+{
+    if (l.size() == 3)
+        return reduce(all(l), 0LL) - 2;
+    vlong mleft = {l[0] - 1};
+    ll m = l[0] - 1;
+    for (int i = 1; i < l.size() - 1; i++)
+    {
+        m = max(--m, l[i] - 1);
+        mleft.push_back(m);
+    }
+
+    vlong mright(l.size(), 0);
+    mright[l.size() - 2] = l[l.size() - 1] - 1;
+
+    m = l[l.size() - 1] - 1;
+    for (int i = l.size() - 2; i >= 1; i--)
+    {
+        m = max(--m, (ll)(l[i] - 1));
+        mright[i - 1] = m;
+    }
+    ll res = 0;
+    for (int i = 1; i < l.size() - 1; i++)
+        res = max(res, mleft[i - 1] + mright[i] + l[i]);
+    // cout << "mleft: " << mleft << "\n";
+    // cout << "mright: " << mright << "\n";
+    return res;
+}
 
 int main()
 {
@@ -60,11 +91,16 @@ int main()
     while (numTests--)
     {
         int size;
+        dp1.assign(size + 1, 0LL);
+        dp2.assign(size + 1, 0LL);
+        dp3.assign(size + 1, 0LL);
+
         cin >> size;
         cin.ignore();
-        vector<int> arr(size);
+        vlong arr(size);
 
-        for (int i = 0; i < size; i++)
+        for (ll i = 0; i < size; i++)
             cin >> arr[i];
+        cout << comp(arr) << "\n";
     }
 }

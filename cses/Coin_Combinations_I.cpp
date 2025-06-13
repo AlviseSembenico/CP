@@ -1,4 +1,5 @@
 
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -52,19 +53,27 @@ unordered_map<int, int, custom_hash> m;
 
 int main()
 {
+
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-
-    int numTests;
-    cin >> numTests;
-    while (numTests--)
+    ll n, x;
+    cin >> n >> x;
+    vint cash(n);
+    vlong dp(x + 1, 0);
+    for (int &v : cash)
+        cin >> v;
+    dp[0] = 1;
+    ll mod = 1e9 + 7;
+    loop(1, x + 1)
     {
-        int size;
-        cin >> size;
-        cin.ignore();
-        vector<int> arr(size);
-
-        for (int i = 0; i < size; i++)
-            cin >> arr[i];
+        for (int c : cash)
+        {
+            if (c > i)
+                continue;
+            dp[i] += dp[i - c];
+            dp[i] = dp[i] % mod;
+        }
     }
+    cout << dp[x];
+    return 0;
 }

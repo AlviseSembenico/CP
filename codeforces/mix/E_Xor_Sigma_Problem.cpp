@@ -14,8 +14,6 @@ typedef long long int ll;
 typedef vector<int> vint;
 typedef vector<ll> vlong;
 
-#define loop(a, b) for (int i = a; i < b; i++)
-#define loop0(a) for (int i = 0; i < a; i++)
 #define all(x) x.begin(), x.end()
 
 template <typename T>

@@ -54,17 +54,27 @@ int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-
-    int numTests;
-    cin >> numTests;
-    while (numTests--)
+    ll n, x;
+    cin >> n >> x;
+    vint cash(n);
+    vlong dp(x + 1, INT_MAX);
+    for (int &v : cash)
+        cin >> v;
+    dp[0] = 0;
+    loop(1, x + 1)
     {
-        int size;
-        cin >> size;
-        cin.ignore();
-        vector<int> arr(size);
-
-        for (int i = 0; i < size; i++)
-            cin >> arr[i];
+        for (int c : cash)
+        {
+            if (c > i)
+                continue;
+            dp[i] = min(dp[i], 1 + dp[i - c]);
+        }
     }
+    // cout << dp << endl;
+    if (dp[x] == INT_MAX)
+        cout
+            << "-1";
+    else
+        cout << dp[x];
+    return 0;
 }

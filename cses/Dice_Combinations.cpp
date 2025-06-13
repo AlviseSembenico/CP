@@ -14,8 +14,6 @@ typedef long long int ll;
 typedef vector<int> vint;
 typedef vector<ll> vlong;
 
-#define loop(a, b) for (int i = a; i < b; i++)
-#define loop0(a) for (int i = 0; i < a; i++)
 #define all(x) x.begin(), x.end()
 
 template <typename T>
@@ -54,17 +52,18 @@ int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-
-    int numTests;
-    cin >> numTests;
-    while (numTests--)
+    ll n;
+    cin >> n;
+    ll mod = 1e9 + 7;
+    vlong dp(n + 5, 0);
+    dp[0] = 1;
+    dp[1] = 1;
+    for (ll i = 2; i <= n; i++)
     {
-        int size;
-        cin >> size;
-        cin.ignore();
-        vector<int> arr(size);
-
-        for (int i = 0; i < size; i++)
-            cin >> arr[i];
+        for (int j = 1; j <= min(6LL, i); j++)
+            dp[i] += dp[i - j];
+        dp[i] %= mod;
     }
+    cout << dp[n];
+    return 0;
 }
