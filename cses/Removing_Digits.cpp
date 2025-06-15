@@ -1,4 +1,5 @@
 
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -47,32 +48,46 @@ struct custom_hash
         return splitmix64(x + FIXED_RANDOM);
     }
 };
-
-// function to return a nxm grid of custom types, custom values
-template <typename T>
-vector<vector<T>> createGrid(int n, int m, T defaultValue)
-{
-    return vector<vector<T>>(n, vector<T>(m, defaultValue));
-}
-
 // we can now use it with unordered_map, unordered_set, etc.
 unordered_map<int, int, custom_hash> m;
+
+vector<int> digits_from_math(int n)
+{
+    if (n == 0)
+        return {0};
+    vector<int> d;
+    while (n > 0)
+    {
+        d.push_back(n % 10);
+        n /= 10;
+    }
+    reverse(d.begin(), d.end());
+    return d;
+}
+
+int dp[(int)1e6 + 5];
 
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
+    int n;
+    cin >> n;
+    fill_n(dp, n + 5, INT_MAX / 2);
+    dp[0] = 0;
 
-    int numTests;
-    cin >> numTests;
-    while (numTests--)
+    for (int i = 1; i <= n; i++)
     {
-        int size;
-        cin >> size;
-        cin.ignore();
-        vector<int> arr(size);
-
-        for (int i = 0; i < size; i++)
-            cin >> arr[i];
+        int n = i;
+        int r = INT_MAX;
+        while (n > 0)
+        {
+            int d = n % 10;
+            n /= 10;
+            r = min(r, dp[i - d] + 1);
+        }
+        dp[i] = r;
     }
+    cout << dp[n];
+    return 0;
 }

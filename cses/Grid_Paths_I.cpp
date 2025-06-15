@@ -1,4 +1,5 @@
 
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -30,6 +31,11 @@ ostream &operator<<(ostream &os, const vector<T> &v)
     return os;
 }
 
+template <typename T>
+vector<vector<T>> createGrid(int n, int m, T defaultValue)
+{
+    return vector<vector<T>>(n, vector<T>(m, defaultValue));
+}
 struct custom_hash
 {
     static uint64_t splitmix64(uint64_t x)
@@ -47,32 +53,40 @@ struct custom_hash
         return splitmix64(x + FIXED_RANDOM);
     }
 };
-
-// function to return a nxm grid of custom types, custom values
-template <typename T>
-vector<vector<T>> createGrid(int n, int m, T defaultValue)
-{
-    return vector<vector<T>>(n, vector<T>(m, defaultValue));
-}
-
 // we can now use it with unordered_map, unordered_set, etc.
-unordered_map<int, int, custom_hash> m;
 
 int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    int n;
+    cin >> n;
 
-    int numTests;
-    cin >> numTests;
-    while (numTests--)
+    // read nxn grid
+    vector<vector<bool>> grid(n, vector<bool>(n));
+    loop0(n)
     {
-        int size;
-        cin >> size;
-        cin.ignore();
-        vector<int> arr(size);
-
-        for (int i = 0; i < size; i++)
-            cin >> arr[i];
+        for (int j = 0; j < n; j++)
+        {
+            char tmp;
+            grid[i][j] = (cin >> tmp && tmp == '.');
+        }
     }
+    vector<vlong> dp = createGrid(n, n, 0LL);
+    dp[0][0] = grid[0][0];
+    ll mod = 1e9 + 7;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (grid[i][j])
+            {
+                if (i > 0)
+                    dp[i][j] += dp[i - 1][j];
+                if (j > 0)
+                    dp[i][j] += dp[i][j - 1];
+                dp[i][j] %= mod;
+            }
+        }
+    }
+    cout << dp[n - 1][n - 1] << endl;
+    return 0;
 }
