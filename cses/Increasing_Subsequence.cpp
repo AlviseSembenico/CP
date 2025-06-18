@@ -1,4 +1,5 @@
 
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -56,23 +57,31 @@ vector<vector<T>> createGrid(int n, int m, T defaultValue)
 }
 
 // we can now use it with unordered_map, unordered_set, etc.
-// unordered_map<int, int, custom_hash> m;
 
+int find_lis(const vector<int> &a)
+{
+    vector<int> dp;
+    for (int i : a)
+    {
+        int pos = lower_bound(dp.begin(), dp.end(), i) - dp.begin();
+        if (pos == dp.size())
+        {
+            // we can have a new, longer increasing subsequence!
+            dp.push_back(i);
+        }
+        else
+        {
+            // oh ok, at least we can make the ending element smaller
+            dp[pos] = i;
+        }
+    }
+    return dp.size();
+}
 int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int numTests;
-    cin >> numTests;
-    while (numTests--)
-    {
-        int size;
-        cin >> size;
-        cin.ignore();
-        vector<int> arr(size);
-
-        for (int i = 0; i < size; i++)
-            cin >> arr[i];
-    }
+    int n;
+    cin >> n;
+    vint a(n);
+    loop0(n) cin >> a[i];
+    cout << find_lis(a);
 }

@@ -52,3 +52,23 @@ int dfs_settle(int start, vector<int>& debts) {
    return best;
 }
 ```
+
+An extremely interesting case of non intuitive (at first) solution is about the longest increasing subsequence ([Cses problem](https://cses.fi/problemset/result/13339595/)).
+The solution comes from [here](https://usaco.guide/gold/lis?lang=cpp), and it is connected to the [Patience sorting](https://en.wikipedia.org/wiki/Patience_sorting#Algorithm_for_finding_a_longest_increasing_subsequence).
+
+```
+int find_lis(const vector<int> &a) {
+	vector<int> dp;
+	for (int i : a) {
+		int pos = lower_bound(dp.begin(), dp.end(), i) - dp.begin();
+		if (pos == dp.size()) {
+			// we can have a new, longer increasing subsequence!
+			dp.push_back(i);
+		} else {
+			// oh ok, at least we can make the ending element smaller
+			dp[pos] = i;
+		}
+	}
+	return dp.size();
+}
+```
