@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -17,6 +16,7 @@ typedef vector<ll> vlong;
 #define loop(a, b) for (int i = a; i < b; i++)
 #define loop0(a) for (int i = 0; i < a; i++)
 #define all(x) x.begin(), x.end()
+#define contains(v, x) (find(begin(v), end(v), x) != end(v))
 
 template <typename T>
 ostream &operator<<(ostream &os, const vector<T> &v)
