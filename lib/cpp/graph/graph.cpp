@@ -1,8 +1,9 @@
 #include <bits/stdc++.h>
 
-typedef long long int ll;
-
 using namespace std;
+
+typedef long long int ll;
+typedef vector<int> vint;
 
 void connected_component(vector<vector<vector<int>>> &graph, int node,
                          unordered_map<int, int> &m, int id)
@@ -81,4 +82,30 @@ void make_graph(vector<vector<int>> &edges, vector<vector<int>> &g)
         g[e[0]].push_back(e[1]);
         g[e[1]].push_back(e[2]);
     }
+}
+
+int minDistance(int start, int end, vector<vector<int>> &g)
+{
+    vector<bool> seen(g.size(), false);
+    seen[start] = true;
+    vint q = {start};
+    int c = 0;
+    while (q.size() > 0)
+    {
+        vint nq;
+        for (int i : q)
+        {
+            if (i == end)
+                return c;
+            for (int to : g[i])
+                if (!seen[to])
+                {
+                    seen[to] = true;
+                    nq.push_back(to);
+                }
+        }
+        q.swap(nq);
+        c++;
+    }
+    return -1;
 }

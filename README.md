@@ -15,3 +15,60 @@ This repository contains solutions and code for various competitive programming 
 1. Clone the repository:
    ```bash
    git clone https://github.com/AlviseSembenico/CP.git
+
+
+# Wiki
+
+## Backtracking
+
+### Settle balances
+
+Goal: having a vector of integers such that the sum of the values is 0, find the minimum number of transactions.
+
+How: "simply" use backtrack, to find all possible transactions, change the array in place, so you restore it for the next branch search.
+
+```
+int dfs_settle(int start, vector<int>& debts) {
+   // skip settled accounts
+   while (start < debts.size() && debts[start] == 0)
+      ++start;
+   if (start == debts.size())
+      return 0;
+
+   int best = INT_MAX;
+   for (int i = start + 1; i < debts.size(); ++i) {
+      // only try to cancel opposite signs
+      if (debts[i] * debts[start] < 0) {
+            // settle debts[start] with debts[i]
+            debts[i] += debts[start];
+            best = min(best, 1 + dfs_settle(start + 1, debts));
+            debts[i] -= debts[start];
+            // prune: if debts[start] exactly cancels debts[i], no need to
+            // try others
+            if (debts[i] + debts[start] == 0)
+               break;
+      }
+   }
+   return best;
+}
+```
+
+An extremely interesting case of non intuitive (at first) solution is about the longest increasing subsequence ([Cses problem](https://cses.fi/problemset/result/13339595/)).
+The solution comes from [here](https://usaco.guide/gold/lis?lang=cpp), and it is connected to the [Patience sorting](https://en.wikipedia.org/wiki/Patience_sorting#Algorithm_for_finding_a_longest_increasing_subsequence).
+
+```
+int find_lis(const vector<int> &a) {
+	vector<int> dp;
+	for (int i : a) {
+		int pos = lower_bound(dp.begin(), dp.end(), i) - dp.begin();
+		if (pos == dp.size()) {
+			// we can have a new, longer increasing subsequence!
+			dp.push_back(i);
+		} else {
+			// oh ok, at least we can make the ending element smaller
+			dp[pos] = i;
+		}
+	}
+	return dp.size();
+}
+```
