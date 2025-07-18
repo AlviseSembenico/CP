@@ -9,6 +9,19 @@ using namespace std;
 #include "./codeforces/debug.hpp"
 #endif
 
+#ifndef ONLINE_JUDGE
+#define deb(...) logger(#__VA_ARGS__, __VA_ARGS__)
+template <typename... Args>
+void logger(string vars, Args &&...values)
+{
+    cout << vars << " = ";
+    string delim = "";
+    (..., (cout << delim << values, delim = ", "));
+}
+#else
+// If not debugging, define deb as empty
+#define deb(...)
+#endif
 typedef long long int ll;
 typedef vector<int> vint;
 typedef vector<ll> vlong;
