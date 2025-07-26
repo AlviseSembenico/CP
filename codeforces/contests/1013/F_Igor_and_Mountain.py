@@ -1,52 +1,79 @@
-from collections import defaultdict
-from functools import cache
+from bisect import *
 from math import *
 
 
-def euc(x, y, x2, y2):
-    return sqrt((x - x2) ** 2 + (y - y2) ** 2)
+def find_index_ge(arr, val):
+    idx = bisect_left(arr, val)
+    if idx < len(arr) and arr[idx] >= val:
+        return idx
+    return -1
 
 
-def comp(n, m, d, mat):
-    g = defaultdict(list)
-    for i in range(n - 1, 0, -1):
-        for j in range(m):
-            if mat[i][j] == 0:
-                continue
-            conn = []
-            m1 = j - 1
-            while m1 >= 0 and sqrt((j - m1) ** 2) <= d:
-                if mat[i][m1] == 1:
-                    conn.append((i, m1))
-                m1 -= 1
+def find_index_le(arr, val):
+    idx = bisect_right(arr, val) - 1
+    if idx >= 0 and arr[idx] <= val:
+        return idx
+    return -1
 
-            m1 = j + 1
-            while m1 < m and sqrt((j - m1) ** 2) <= d:
-                if mat[i][m1] == 1:
-                    conn.append((i, m1))
-                m1 += 1
-            if i == 0:
-                continue
-            for j2 in range(m):
-                if euc(i, j, n - 1, j2) <= d:
-                    conn.append((n - 1, j2))
-            g[(i, j)] = conn
 
-    @cache
-    def dfs(i, j, level):
-        if i == 0:
-            return 1
-        res = 0
-        for x, y in g[(i, j)]:
-            if level and x == i:
-                continue
-            res += dfs(x, y, x == i)
-        return res
+def prefix_sum(arr):
+    mod = 998244353
+    ps = [0] * (len(arr) + 1)
+    for i in range(len(arr)):
+        ps[i + 1] = ps[i] + arr[i] % mod
+    return ps
 
+
+def comp2(n, m, d, mat):
+    mod = 998244353
+    dp = [1] * len(mat[-1])
+    R = isqrt(d**2 - 1)
+    for i in range(n - 2, -1, -1):
+        vals = mat[i]
+        prev_v = mat[i + 1]
+
+        old_dp = dp[:]
+        dp = [0] * len(prev_v)
+        l = r = 0
+        window = 0
+        for ii, ind in enumerate(prev_v):
+            while r < len(prev_v) and prev_v[r] <= ind + d:
+                window = (window + old_dp[r]) % mod
+                r += 1
+            while l < r and prev_v[l] < ind - d:
+                window = (window - old_dp[l]) % mod
+                l += 1
+            dp[ii] = window
+
+        curr = [0] * len(vals)
+        l, r = 0, 0
+        window = 0
+        for ii, v in enumerate(vals):
+            while r < len(prev_v) and prev_v[r] <= v + R:
+                window = (window + dp[r]) % mod
+                r += 1
+            # shrink l so prev_v[l] < v - R
+            while l < r and prev_v[l] < v - R:
+                window = (window - dp[l]) % mod
+                l += 1
+            curr[ii] = window
+
+        dp = curr
+
+    prev_v = mat[0]
     res = 0
-    for i in range(m):
-        if mat[n - 1][i] == 1:
-            res += dfs(0, i, 0)
+    l = r = 0
+    window = 0
+    for ii, ind in enumerate(prev_v):
+        while r < len(prev_v) and prev_v[r] <= ind + d:
+            window = (window + dp[r]) % mod
+            r += 1
+        while l < r and prev_v[l] < ind - d:
+            window = (window - dp[l]) % mod
+            l += 1
+        res += window
+        res %= mod
+
     return res
 
 
@@ -58,9 +85,13 @@ def main():
         n, m, d = list(map(int, input().split(" ")))
         ma = []
         for i in range(n):
-            l = list(map(lambda x: 1 if x == "X" else 0, input()))
-            ma.append(l)
-        print(comp(n, m, d, ma))
+            l = sys.stdin.readline()
+            ll = []
+            for i, j in enumerate(l):
+                if j == "X":
+                    ll.append(i)
+            ma.append(ll)
+        print(comp2(n, m, d, ma))
 
 
 main()
