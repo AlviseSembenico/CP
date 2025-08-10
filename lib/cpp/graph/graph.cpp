@@ -109,3 +109,33 @@ int minDistance(int start, int end, vector<vector<int>> &g)
     }
     return -1;
 }
+
+bool vis[(int)1e5 + 5];
+void postDfs(vector<vector<int>> &g, vint &res, int node)
+{
+    if (vis[node])
+        return;
+    vis[node] = true;
+    while (!g[node].empty())
+    {
+        int t = g[node].back();
+        g[node].pop_back();
+        postDfs(g, res, t);
+    }
+    res.push_back(node + 1);
+}
+
+vector<int> topologicalSort(vector<vector<int>> &g)
+{
+    vint inc(g.size(), 0);
+    for (vint ff : g)
+        for (int f : ff)
+            inc[f] = 1;
+    vint res;
+    for (int i = 0; i < g.size(); i++)
+        if (inc[i] == 0)
+        {
+            postDfs(g, res, i);
+        }
+    return res;
+}
