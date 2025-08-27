@@ -38,4 +38,24 @@ int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
+    int n, a, b;
+    cin >> n;
+    vlong v(n);
+    for (auto &i : v)
+        cin >> i;
+    ll res = *max_element(all(v));
+    int i = 0;
+    int j = -1;
+    ll c = 0;
+    while (j < n - 1)
+    {
+        c += v[++j];
+        res = max(res, c);
+        if (c < 0)
+        {
+            i = j + 1;
+            c = 0;
+        }
+    }
+    cout << res;
 }
