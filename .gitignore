@@ -50,3 +50,4 @@ Desktop.ini
 *.exe
 .history
 .cph
+**/input.txt

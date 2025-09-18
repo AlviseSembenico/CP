@@ -29,6 +29,7 @@ typedef pair<ll, ll> pll;
 typedef vector<int> vint;
 typedef vector<ll> vlong;
 
+#define pb push_back
 #define loop(a, b) for (int i = a; i < b; i++)
 #define loop0(a) for (int i = 0; i < a; i++)
 #define all(x) x.begin(), x.end()
