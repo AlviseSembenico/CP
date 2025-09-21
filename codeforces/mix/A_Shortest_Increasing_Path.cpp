@@ -1,13 +1,7 @@
+
 #include <bits/stdc++.h>
 
 using namespace std;
-
-#define DEBUG 0
-
-#if DEBUG
-#define HAS_EXTRA 1
-#include "./codeforces/debug.hpp"
-#endif
 
 #ifndef ONLINE_JUDGE
 #define deb(...) logger(#__VA_ARGS__, __VA_ARGS__)
@@ -36,16 +30,28 @@ typedef vector<ll> vlong;
 #define all(x) x.begin(), x.end()
 #define contains(v, x) (find(begin(v), end(v), x) != end(v))
 
+int solve(int x, int y)
+{
+    if (x < y)
+        return 2;
+    if (x == y || y == 1)
+        return -1;
+    if (x > 1 + y)
+        return 3;
+    else
+        return -1;
+}
+
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-#endif
     int t;
     cin >> t;
     while (t--)
     {
+        int x, y;
+        cin >> x >> y;
+        cout << solve(x, y) << '\n';
     }
 }

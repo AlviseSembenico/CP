@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -34,18 +35,47 @@ typedef vector<ll> vlong;
 #define loop(a, b) for (int i = a; i < b; i++)
 #define loop0(a) for (int i = 0; i < a; i++)
 #define all(x) x.begin(), x.end()
-#define contains(v, x) (find(begin(v), end(v), x) != end(v))
+// #define contains(v, x) (find(begin(v), end(v), x) != end(v))
+
+bool compute(string &s)
+{
+    if (s.contains("11011") || s == "101")
+        return false;
+    if (s.starts_with("1011") || s.ends_with("1101"))
+        return false;
+    // regex re("11(01)+1");
+    regex re("(?=(?:^1|11)((01)+)(?:1*$|1))");
+    auto begin = sregex_iterator(s.begin(), s.end(), re);
+    auto end = sregex_iterator();
+    for (auto it = begin; it != end; ++it)
+    {
+        string block = (*it)[1].str(); // group 1 = (01)+
+        int cnt = block.size() / 2;    // number of (01)
+        if (cnt % 2 == 1)
+            return false;
+    }
+
+       return true;
+}
 
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-#endif
     int t;
     cin >> t;
+    int i = 1;
     while (t--)
     {
+        int n;
+        cin >> n;
+        string s;
+        cin >> s;
+        if (compute(s))
+            cout << "YES";
+        else
+            cout << "NO";
+        cout << '\n';
+        i++;
     }
 }
