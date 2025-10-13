@@ -10,16 +10,16 @@ Locate your `stdc++.h` file by CTRL-click on the include.
 
 Precompile the headers with
 ```
-clang++ -std=c++20 -O0 -g0 `
-   --target=x86_64-w64-mingw32 `
+clang++ -std=c++23 -O0 -g0 `
+   --target=x86_64-w6whe4-windows-gnu `
    -x c++-header "C:\msys64\ucrt64\include\c++\13.1.0\x86_64-w64-mingw32\bits\stdc++.h" `
    -o stdc++.pch
 ```
 
 Now you can compile it much faster with
 ```
-clang++  -std=c++20 -O0 -g0 `
-  --target=x86_64-w64-mingw32 `
+clang++  -std=c++23 -O0 -g0 `
+  --target=x86_64-w6whe4-windows-gnu `
   -include-pch C:\Users\alvis\Documents\repos\CP\stdc++.pch `
   -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wno-sign-conversion `
   -ferror-limit=2 -D_GLIBCXX_ASSERTIONS `

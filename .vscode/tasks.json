@@ -7,6 +7,8 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-DDEBUG=1",
+                "-DCINPUT=1",
+                "-std=c++23",
                 "-DMD=1",
                 "-g",
                 "${file}",
