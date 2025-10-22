@@ -1,9 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+typedef vector<int> vint;
+
+vector<bool> isPrime(n + 1, true);
 vector<int> getPrimes(int n)
 {
-    vector<bool> isPrime(n + 1, true);
     isPrime[0] = isPrime[1] = false; //
     for (int i = 2; i * i <= n; ++i)
     {
@@ -26,20 +28,27 @@ vector<int> getPrimes(int n)
     return primes;
 }
 
-vector<int> factor(int n)
+vint factorize(int i)
 {
-    vector<int> factors;
-    for (int i = 1; i * i <= n; ++i)
+    vint res;
+    if (isPrime[i])
     {
-        if (n % i == 0)
-        {
-            factors.push_back(i);
-            if (i != n / i)
-            {
-                factors.push_back(n / i);
-            }
-        }
+        res = {i};
+        return res;
     }
-    sort(factors.begin(), factors.end());
-    return factors;
+    // Use primes computed from the above function
+    for (int p : primes)
+    {
+        if (i % p == 0)
+        {
+            res.push_back(p);
+            while (i % p == 0)
+                i /= p;
+        }
+        if (p * p > i)
+            break;
+    }
+    if (i > 1)
+        res.push_back(i);
+    return res;
 }
