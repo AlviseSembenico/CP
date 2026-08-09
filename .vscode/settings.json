@@ -90,6 +90,16 @@
         "thread": "cpp",
         "typeindex": "cpp",
         "typeinfo": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "vector": "cpp",
+        "deque": "cpp",
+        "format": "cpp",
+        "list": "cpp",
+        "xstring": "cpp",
+        "xhash": "cpp",
+        "xtree": "cpp",
+        "unordered_set": "cpp",
+        "map": "cpp",
+        "unordered_map": "cpp"
     }
 }
