@@ -139,3 +139,62 @@ vector<int> topologicalSort(vector<vector<int>> &g)
         }
     return res;
 }
+
+int dijsktra(vector<vector<int>> &g, int x, int y)
+{
+    vector<int> dist(g.size(), 2e9);
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+
+    dist[x] = 0;
+    pq.emplace(0, x);
+
+    while (!pq.empty())
+    {
+        auto [d, u] = pq.top();
+        pq.pop();
+
+        if (u == y)
+            return d;
+        if (d > dist[u])
+            continue;
+
+        // g[u] contains ints (nodes), not pairs
+        for (int v : g[u])
+        {
+            if (dist[u] + 1 < dist[v])
+            {
+                dist[v] = dist[u] + 1;
+                pq.emplace(dist[v], v);
+            }
+        }
+    }
+    return 1e9;
+}
+
+template <size_t R, size_t C>
+void floydwarshall(const vector<vector<int>> &g, int (&d)[R][C])
+{
+    int n = g.size();
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            d[i][j] = (i == j) ? 0 : 1e9;
+        }
+        for (int j : g[i])
+        {
+            d[i][j] = 1;
+        }
+    }
+
+    for (int k = 0; k < n; ++k)
+    {
+        for (int i = 0; i < n; ++i)
+        {
+            for (int j = 0; j < n; ++j)
+            {
+                d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
+            }
+        }
+    }
+}
