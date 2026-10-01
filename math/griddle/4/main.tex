@@ -1,0 +1,233 @@
+% Compile with: latexmk -pdf main.tex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[hidelinks]{hyperref}
+
+% Theorems share a counter, numbered within each section.
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\numberwithin{equation}{section}
+
+% Common number sets and delimiters.
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+
+\title{GRiddles Puzzle 4}
+\author{Alvise Sembenico\\\small\href{mailto:alvise.sembenico@gmail.com}{\texttt{alvise.sembenico@gmail.com}}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Problem number 4}
+We propose a solution for the Problem number 4 and we prove it. 
+The solution will start by constructing an example of a valid sequence $a_n$ for Bob. This is enough to show the problem is well posed. Next, we will show how $l=2$ is a valid number to guarantee Ana to win. To conclude our proof, we will show that $l=1$ does not guarantee Ana to win, therefore making $l=2$ the lower bound.
+
+
+\subsection{Well-posedness}
+Assume $a_1=M$ for $M$ large enough. Then, for any index $k$, we set
+$M_k:=\max_{i=1,\ldots,k}a_i$, and let $n_k$ be the smallest positive
+integer not appearing among $a_1,\ldots,a_k$, and $m_k$ the smallest positive
+integer not appearing among the differences
+$\abs{a_{i+1}-a_i}$ for $1\leq i<k$. In particular, $m_1=1$.
+For $k=1,3,5,\ldots$, we define the next two terms by 
+\begin{equation}\label{eq:sequence-recursion}
+  a_{k+1}:=2M_k+1,
+  \qquad
+  a_{k+2}:=
+  \begin{cases}
+    a_{k+1}-m_k, & \text{if }m_k\leq n_k,\\
+    n_k, & \text{if }m_k>n_k.
+  \end{cases}
+\end{equation}
+We repeat this construction with $k$ replaced by $k+2$.
+This is the recursive rule used for OEIS sequence A129198~\cite{oeis-a129198},
+with our chosen initial value $a_1=M$. This shows there infinite valid sequences $a_n$ for Bob to choose. 
+
+\subsection{Upper bound $l=2$}
+We now show that $l=2$ is an upper bound so that there exist a strategy that guarantees Ana's victory. 
+
+The intuition is the following, if we can guess that Bob password sequence $p_n$ was at the number $M$ at the time $t$, then at time $t+1$, he has only 2 options, therefore we can simply cover them both. In particular, Ana at time $t+1$ will guess $M+a_{t+1}$ and $M-a_{t+1}$. 
+
+Since $p_n$ has to be surjective, we know that there exist and $n'$ so that $p_{n'}=M$. Thus, if Ana choose an $M$ that we know that Bob has not visit yet, and at every turn she chooses $M+a_{t+1}$ and $M-a_{t+1}$, she is guaranteed to win. 
+
+Trivially, by setting $N = 2026^{2026^{2026}}$ and defining $M:=1+ \sum_{i=1}^{N}a_i$, we are guaranteed that $p_i \ne M$ for any $i \le N$. Ana will then guess $M+a_{t+1}$ and $M-a_{t+1}$ at every turn. Note that since $M$ is fixed and $a_t$ are all different, she will not guess the same number twice. Since there exists an index $j$ so that $p_j=M$, Ana is guaranteed to win. 
+
+\subsection{Disproving $l=1$ is a valid strategy}
+The proof goes as follows: we construct a pair of interchangeable block of numbers. These blocks will share the same numbers but in a different order, and the difference in absolute difference will also be identical. We therefore constructed 2 different possible combinations of a subset of $p_n$, using the same subset of $a_n$. By scaling and shifting these blocks, we are able to construct infinite many block pairs that use different values and different differences. Finally, we will integrate the main idea from the sequence presented in the first section to construct a valid sequence $a_n$ that has $2^{\aleph_0}$ possible sequences $p_n$. 
+\\
+
+
+The two blocks are 
+\[
+\begin{aligned}
+u={}&(13,18,8,22,4,25,1,24,2,\\
+    &\qquad29,31,28,35,52,51,45,49,40),\\[2mm]
+v={}&(13,8,18,4,22,1,25,2,24,\\
+    &\qquad51,49,52,45,28,29,35,31,40).
+\end{aligned}
+\]
+These are different, but they use exactly the same set of values and have the same first and last values. Moreover, their ordered absolute differences are identical:
+\[
+d=(5,10,14,18,21,24,23,22,27,2,3,7,17,1,6,4,9),
+\]
+For this construction, let $M_t$ be the largest value used so far in $p_n$,
+and $D_t$ the largest absolute difference used so far. At any point $t$,
+we can scale both blocks by $D_t+1$ and then shift them sufficiently far
+beyond $M_t$. This ensures that their values and internal differences are
+new. We choose the shift large enough that the difference joining the current
+endpoint to the next block also exceeds all previously used and new internal
+differences.
+
+Between successive blocks, we also ensure that the least missing value and
+the least missing difference appear. Using the notation from the first section
+for the current partial sequence $p_n$, let $n_t$ be its least missing positive
+value and $m_t$ its least missing positive absolute difference. Let $x:=p_t$
+be the last term of the current partial sequence $p_1,\ldots,p_t$.
+From this endpoint, the two extensions
+\[
+  \ldots,x,T,n_t
+  \qquad\text{and}\qquad
+  \ldots,x,T,T+m_t
+\]
+include the missing value $n_t$ and the missing difference $m_t$, respectively.
+We apply these extensions in turn, updating the missing quantities and choosing
+a fresh $T$ at each step. Taking $T$ sufficiently large makes every added value
+and difference new: in the first extension, the differences $T-x$ and $T-n_t$
+are distinct since $x\ne n_t$; in the second, we also require $T-x>m_t$.
+Since the two versions of each block have the same value set, ordered absolute
+differences, and endpoint, these extensions work identically for either choice.
+
+This construction ensures that every positive integer eventually appears both
+as a value of $p_n$ and as an absolute difference, while preserving the independent
+choice between the two versions of each block.
+
+\\
+
+
+Let \(a=(a_i)_{i\ge1}\) be the difference permutation produced by our interchangeable-block construction, and let
+\[
+\mathcal F:=\left\{(a_1,\ldots,a_{m_n}):n\ge1\right\},
+\qquad m_1<m_2<\cdots,
+\]
+where \(m_n\) is the number of differences fixed by the end of stage \(n\), including the steps that insert the least missing value and difference.
+For every \(n\ge1\), our construction gives a family \(\mathcal P_n\) of exactly \(2^n\) distinct permutation prefixes
+\[
+(p_1,\ldots,p_{m_n+1})
+\]
+satisfying
+\[
+|p_{i+1}-p_i|=a_i
+\qquad(1\le i\le m_n).
+\]
+Here we count the prefixes selected by our construction, not necessarily all possible prefixes realizing these differences.
+Label these prefixes by their \(n\) binary block choices:
+\[
+\mathcal P_n
+=
+\left\{p^\sigma:\sigma\in\{0,1\}^n\right\}.
+\]
+The crucial property is compatibility across stages: each prefix \(p^\sigma\in\mathcal P_n\) has two distinct selected extensions
+\[
+p^{\sigma_0},\ p^{\sigma_1}\in\mathcal P_{n+1},
+\]
+both of which agree with \(p^\sigma\) throughout its existing entries. Neither choice prevents any later choices.
+Furthermore, every prefix has distinct positive integer entries, and, because we insert the least missing value at every stage, every prefix in \(\mathcal P_n\) contains any number $i \in \mathbb N,\quad  i\ge1$.
+Every infinite choice sequence gives a permutation. 
+Now take any infinite binary sequence
+\[
+\varepsilon=(\varepsilon_1,\varepsilon_2,\ldots)\in\{0,1\}^{\mathbb N}.
+\]
+Its successive choices determine compatible prefixes
+\[
+p^{\varepsilon_1},\quad
+p^{\varepsilon_1\varepsilon_2},\quad
+p^{\varepsilon_1\varepsilon_2\varepsilon_3},\quad\ldots.
+\]
+Consequently, they determine one infinite sequence
+\[
+p^\varepsilon
+:=
+\bigcup_{n\ge1}p^{\varepsilon_1\cdots\varepsilon_n},
+\]
+where the union means that we retain each prefix and continue extending it.
+This infinite sequence is a permutation of \(\mathbb N\), in fact no value repeats, since no finite prefix has repetitions, and every positive integer \(k\) appears by stage \(k\). Also,
+\[
+|p^\varepsilon_{i+1}-p^\varepsilon_i|=a_i
+\qquad\text{for every }i\ge1.
+\]
+Thus the family
+\[
+\mathcal P:=\left\{p^\varepsilon:
+\varepsilon\in\{0,1\}^{\mathbb N}\right\}
+\]
+is in one-to-one correspondence with \(\{0,1\}^{\mathbb N}\).
+
+We are then able to see that, for a family of interleaving blocks $\mathcal F:=\{(a_1,\ldots,a_{m_n})\}$. 
+
+\\
+We now conclude the proof by showing that the cardinality of the family is uncountable.
+
+Suppose, for a contradiction, that we could list its members as
+\[
+p^{\varepsilon^{(1)}},
+p^{\varepsilon^{(2)}},
+p^{\varepsilon^{(3)}},\ldots.
+\]
+Choose a new infinite binary sequence \(\delta\) by setting
+\[
+\delta_n:=1-\varepsilon^{(n)}_n.
+\]
+The construction gives a valid permutation \(p^\delta\in\mathcal P\). But \(p^\delta\) differs from the \(n\)-th listed permutation in its choice at block \(n\), for every \(n\). Hence \(p^\delta\) is absent from the list, a contradiction.
+Therefore
+\[
+|\mathcal P|=2^{\aleph_0}.
+\]
+
+
+\\
+To conclude, we showed that we can construct a valid permutation of difference $a_n$ that give to an uncountably many valid permutation $p_n$. For any permutation of Ana $b_n$, we can therefore have a permutation such that has values different to $b_n$ for any $i$.
+
+% % Replace the example below with your own mathematics.
+% \begin{theorem}\label{thm:square-inequality}
+% For any $a,b\in\R$,
+% \begin{equation}\label{eq:square-inequality}
+%   2ab \leq a^2+b^2.
+% \end{equation}
+% Equality holds if and only if $a=b$.
+% \end{theorem}
+
+% \begin{proof}
+% Since $(a-b)^2\geq 0$, expanding gives
+% \[
+%   a^2-2ab+b^2\geq 0,
+% \]
+% which rearranges to \eqref{eq:square-inequality}.
+% Equality holds precisely when $a-b=0$.
+% \end{proof}
+
+\begin{thebibliography}{9}
+\bibitem{oeis-a129198}
+\emph{The On-Line Encyclopedia of Integer Sequences}, entry A129198.
+\url{https://oeis.org/A129198}.
+\end{thebibliography}
+
+\end{document}
