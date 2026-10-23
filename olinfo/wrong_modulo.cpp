@@ -50,65 +50,18 @@ auto make_2d(int d1, int d2, int val = 0)
 #define contains(v, x) (find(begin(v), end(v), x) != end(v))
 const int SIZE = 1e6;
 
-vector<bool> isPrime(SIZE + 5, true);
-vector<int> getPrimes(int n)
+ll func(ll N, int a)
 {
-    isPrime[0] = isPrime[1] = false; //
-    for (int i = 2; i * i <= n; ++i)
-    {
-        if (isPrime[i])
-        {
-            for (int j = i * i; j <= n; j += i)
-            {
-                isPrime[j] = false;
-            }
-        }
-    }
-    vector<int> primes;
-    for (int i = 2; i <= n; ++i)
-    {
-        if (isPrime[i])
-        {
-            primes.push_back(i);
-        }
-    }
-    return primes;
-}
-
-vint primes;
-unordered_map<int, int> factorize(int i)
-{
-    unordered_map<int, int> res;
-    for (int p : primes)
-    {
-        if (i % p == 0)
-        {
-            while (i % p == 0)
-            {
-                res[p]++;
-                i /= p;
-            }
-        }
-        if (p * p > i)
-            break;
-    }
-    if (i > 1)
-        res[i]++;
-    return res;
-}
-
-ll func(int N, int a)
-{
+    if (a == 1)
+        return 1LL * N * N;
     ll res = 0;
-    for (int x = 1; x <= N; x++)
+    int x = 1;
+    while (x <= N)
     {
-        if (a == 1)
-            return N * N;
-        auto v = factorize(x);
-        ll cnt = 1;
-        for (auto [p, e] : v)
-            cnt *= e + 1;
-        res += cnt;
+        ll v = floor((double)N / x);
+        int nx = N / v + 1;
+        res += (nx - x) * v;
+        x = nx;
     }
     return res;
 }
@@ -120,12 +73,11 @@ int main()
 #ifdef CINPUT
     freopen("input.txt", "r", stdin);
 #endif
-    primes = getPrimes(SIZE);
     int t;
     cin >> t;
     while (t--)
     {
-        int N, a;
+        ll N, a;
         cin >> N >> a;
         cout << func(N, a) << endl;
     }
