@@ -53,7 +53,7 @@ bool check(ll K, ll T, ll target)
 int ispeziona(int K, int T)
 {
     ll i = 0;
-    ll j = *max_element(all(V)); // Search space
+    ll j = V.back(); // Search space
     while (i < j - 1)
     {
         ll mid = i + (j - i) / 2;
