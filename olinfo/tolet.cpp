@@ -18,56 +18,43 @@ void acquista(int N, vector<int> P)
     ::N = N;
     ::V = P;
     sort(all(V));
-    ll s = 0;
-    for (ll v : V)
-    {
-        s += v;
-        PS.push_back(s);
-    }
+    PS.assign(N + 1, 0);
+    for (int k = 0; k < N; k++)
+        PS[k + 1] = PS[k] + V[k];
 }
 
-bool check(ll K, ll T, ll target)
+l cost(int i)
 {
-    if (target > V.back())
-        return true;
-    if (V.back() - target > T)
-        return false;
-    auto it = upper_bound(all(V), target);
-    ll i, val;
-    if (it != V.begin())
-    {
-        it--;
-        i = it - V.begin();
-    }
-    else
-    {
-        i = -1;
-    }
-    ll above = PS.back() - (i >= 0 ? PS[i] : 0);
-    ll needed = above - target * (N - 1 - i);
-    if (needed > K * T)
-        return false;
-    return true;
+    return PS[N] - PS[i] - (N - i) * V[i];
+}
+
+ll solve(ll B, int i)
+{
+    ll above = PS[N] - PS[i];
+    if (above <= B)
+        return 0;
+    return (above - B + (N - i) - 1) / (N - i);
 }
 
 int ispeziona(int K, int T)
 {
-    ll i = 0;
-    ll j = V.back(); // Search space
+    if (K == 0)
+        return V.back();
+    if (K >= N)
+        return max(0LL, (ll)V.back() - T);
+    ll B = (ll)K * T;
+    ll i = -1;
+    ll j = N - 1;
     while (i < j - 1)
     {
         ll mid = i + (j - i) / 2;
-        if (check(K, T, mid))
+        if (cost(mid) <= B)
             j = mid;
         else
             i = mid;
     }
-    if (check(K, T, i))
-        return i;
-    return j;
+    return max(solve(B, j), (ll)V.back() - T);
 }
-
-// SAMPLE GRADER, DO NOT MODIFY
 
 #ifndef EVAL
 
